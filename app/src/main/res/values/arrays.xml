@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="menu_options">
+        <item>珍珠奶茶</item>
+        <item>綠茶拿鐵</item>
+        <item>芒果冰沙</item>
+        <item>草莓優格</item>
+        <item>香橙汽水</item>
+        <item>水果冰茶</item>
+        <item>黑糖鮮奶茶</item>
+        <item>檸檬蜂蜜水</item>
+        <item>百香雙Q凍</item>
+        <item>巧克力摩卡</item>
+    </string-array>
+    <string-array name="size_options">
+        <item>大杯</item>
+        <item>中杯</item>
+        <item>小杯</item>
+    </string-array>
+    <string-array name="sweetness_options">
+        <item>全糖</item>
+        <item>少糖</item>
+        <item>半糖</item>
+        <item>微糖</item>
+        <item>無糖</item>
+    </string-array>
+
+</resources>

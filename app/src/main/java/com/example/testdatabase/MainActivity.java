@@ -41,7 +41,8 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String username = editTextUsername.getText().toString();
                 String password = editTextPassword.getText().toString();
-
+                Intent intent = new Intent(MainActivity.this, Order.class);
+                startActivity(intent);
                 // 在此處理登入邏輯，將用戶名和密碼傳遞給後端資料庫進行驗證
                 // 這裡只是一個示範，你需要根據你的需求進行實現
             }

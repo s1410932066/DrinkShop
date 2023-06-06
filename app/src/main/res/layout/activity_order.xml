@@ -1,0 +1,85 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Menu"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="16dp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="飲品"
+        android:textStyle="bold"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="8dp" />
+
+    <Spinner
+        android:id="@+id/spinnerMenu"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:entries="@array/menu_options" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Size"
+        android:textStyle="bold"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="8dp" />
+
+    <Spinner
+        android:id="@+id/spinnerSize"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:entries="@array/size_options" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="甜度"
+        android:textStyle="bold"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="8dp" />
+
+    <Spinner
+        android:id="@+id/spinnerSweetness"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:entries="@array/sweetness_options"
+        />
+
+    <Button
+        android:id="@+id/buttonPlaceOrder"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="新增至選單"
+        android:background="@drawable/button_background"
+        android:textColor="#FFFFFF"
+        android:textStyle="bold"
+        android:layout_marginTop="16dp" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewOrderList"
+        android:layout_width="match_parent"
+        android:layout_height="278dp"
+        android:layout_marginTop="16dp" />
+
+
+    <Button
+        android:id="@+id/buttonSend"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/button_background"
+        android:text="送出訂單"
+        android:textColor="#FFFFFF"
+        android:textStyle="bold" />
+</LinearLayout>
