@@ -8,11 +8,16 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.util.UUID;
+
 public class RegistrationActivity extends AppCompatActivity {
     private EditText editTextEmail;
     private EditText editTextConfirmPassword;
     private EditText editTextFullName;
-    private EditText editTextGender;
     private EditText editTextPhone;
     private EditText editTextAddress;
     private Button buttonRegister;
@@ -25,7 +30,6 @@ public class RegistrationActivity extends AppCompatActivity {
         editTextEmail = findViewById(R.id.editTextEmail);
         editTextConfirmPassword = findViewById(R.id.editTextConfirmPassword);
         editTextFullName = findViewById(R.id.editTextFullName);
-        editTextGender = findViewById(R.id.editTextGender);
         editTextPhone = findViewById(R.id.editTextPhone);
         editTextAddress = findViewById(R.id.editTextAddress);
         buttonRegister = findViewById(R.id.buttonRegister);
@@ -34,17 +38,66 @@ public class RegistrationActivity extends AppCompatActivity {
         buttonRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String email = editTextEmail.getText().toString();
-                String confirmPassword = editTextConfirmPassword.getText().toString();
-                String fullName = editTextFullName.getText().toString();
-                String gender = editTextGender.getText().toString();
-                String phone = editTextPhone.getText().toString();
-                String address = editTextAddress.getText().toString();
-                Intent intent = new Intent(RegistrationActivity.this, MainActivity.class);
-                startActivity(intent);
+                String Email = editTextEmail.getText().toString();
+                String Password = editTextConfirmPassword.getText().toString();
+                String Name = editTextFullName.getText().toString();
+                String Phone = editTextPhone.getText().toString();
+                String Address = editTextAddress.getText().toString();
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        saveDataToSqlServer(Name, Email, Password, Address, Phone);
+
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Intent intent = new Intent(RegistrationActivity.this, MainActivity.class);
+                                startActivity(intent);
+                            }
+                        });
+                    }
+                }).start();
+//                Intent intent = new Intent(RegistrationActivity.this, MainActivity.class);
+//                startActivity(intent);
                 // 在此處理註冊邏輯，將所有註冊資訊傳遞給後端資料庫
                 // 這裡只是一個示範，你需要根據你的需求進行實現
             }
         });
+    }
+    private void saveDataToSqlServer(String Name, String Email, String Password, String Address, String Phone){
+        String connectionString = "jdbc:jtds:sqlserver://192.168.10.8:1433/DrinkShop";
+        String username = "sa";
+        String password = "2ixxddux";
+        Connection connection = null;
+
+        try {
+            Class.forName("net.sourceforge.jtds.jdbc.Driver");
+            connection = DriverManager.getConnection(connectionString, username, password);
+            UUID uuid = UUID.randomUUID();
+            String mId = uuid.toString().substring(0, 8);
+            String Role = "Member";
+            String query = "INSERT INTO Member (mId, Name, Email, Password, Address, Phone, Role) VALUES (?, ?, ?, ?, ?, ?, ?)";
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setString(1, mId);
+            statement.setString(2, Name);
+            statement.setString(3, Email);
+            statement.setString(4, Password);
+            statement.setString(5, Address);
+            statement.setString(6, Phone);
+            statement.setString(7, Role);
+            statement.executeUpdate();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
     }
 }
