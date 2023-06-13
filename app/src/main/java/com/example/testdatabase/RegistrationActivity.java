@@ -57,10 +57,6 @@ public class RegistrationActivity extends AppCompatActivity {
                         });
                     }
                 }).start();
-//                Intent intent = new Intent(RegistrationActivity.this, MainActivity.class);
-//                startActivity(intent);
-                // 在此處理註冊邏輯，將所有註冊資訊傳遞給後端資料庫
-                // 這裡只是一個示範，你需要根據你的需求進行實現
             }
         });
     }

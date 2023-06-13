@@ -23,8 +23,8 @@
     <Spinner
         android:id="@+id/spinnerMenu"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:entries="@array/menu_options" />
+        android:layout_height="wrap_content"/>
+
 
     <TextView
         android:layout_width="match_parent"
@@ -52,8 +52,8 @@
         android:id="@+id/spinnerSweetness"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:entries="@array/sweetness_options"
-        />
+        android:entries="@array/sweetness_options"/>
+
 
     <Button
         android:id="@+id/buttonPlaceOrder"
@@ -71,6 +71,14 @@
         android:layout_height="278dp"
         android:layout_marginTop="16dp" />
 
+
+    <TextView
+        android:id="@+id/textViewTotalAmount"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="總金額: $0.00"
+        android:textStyle="bold"
+        android:layout_marginTop="16dp" />
 
     <Button
         android:id="@+id/buttonSend"

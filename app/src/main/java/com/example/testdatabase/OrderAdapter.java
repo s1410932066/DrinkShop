@@ -28,6 +28,7 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder>{
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         String order = orderList.get(position);
         holder.textViewOrder.setText(order);
+        holder.textViewPrice.setText(order);
     }
 
     @Override
@@ -37,10 +38,12 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder>{
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         TextView textViewOrder;
+        TextView textViewPrice;
 
         public ViewHolder(View itemView) {
             super(itemView);
             textViewOrder = itemView.findViewById(R.id.textViewOrder);
+            textViewPrice = itemView.findViewById(R.id.textViewPrice);
         }
     }
 }
