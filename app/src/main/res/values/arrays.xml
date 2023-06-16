@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="size_options">
-        <item>大杯</item>
-        <item>中杯</item>
         <item>小杯</item>
+        <item>中杯(+$5)</item>
+        <item>大杯(+$10)</item>
     </string-array>
     <string-array name="sweetness_options">
         <item>全糖</item>

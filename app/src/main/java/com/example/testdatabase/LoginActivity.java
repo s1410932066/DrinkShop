@@ -2,8 +2,8 @@ package com.example.testdatabase;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -17,8 +17,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class MainActivity extends AppCompatActivity {
-    private EditText editTextUsername;
+public class LoginActivity extends AppCompatActivity {
+    private EditText editTextEmail;
     private EditText editTextPassword;
     private Button buttonRegister;
     private Button buttonLogin;
@@ -28,17 +28,19 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         // 初始化UI元素
-        editTextUsername = findViewById(R.id.editTextUsername);
+        editTextEmail = findViewById(R.id.editLoginEmail);
         editTextPassword = findViewById(R.id.editTextPassword);
         buttonRegister = findViewById(R.id.buttonRegister);
         buttonLogin = findViewById(R.id.buttonLogin);
+        SharedPreferences user = getSharedPreferences("user", MODE_PRIVATE);
+        SharedPreferences.Editor editor = user.edit();
 
         // 註冊按鈕點擊事件
         buttonRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // 創建一個新的Intent來跳轉到RegistrationDetailsActivity
-                Intent intent = new Intent(MainActivity.this, RegistrationActivity.class);
+                Intent intent = new Intent(LoginActivity.this, RegistrationActivity.class);
                 startActivity(intent);
             }
         });
@@ -47,48 +49,45 @@ public class MainActivity extends AppCompatActivity {
         buttonLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String username = editTextUsername.getText().toString();
-                String password = editTextPassword.getText().toString();
-                String DB_URL = "jdbc:jtds:sqlserver://192.168.10.8:1433/DrinkShop";
-                String DB_USERNAME = "sa";
-                String DB_PASSWORD = "2ixxddux";
+                String Email = editTextEmail.getText().toString();
+                String Password = editTextPassword.getText().toString();
 
                 // 在新线程中执行数据库查询
                 Thread thread = new Thread(new Runnable() {
                     @Override
                     public void run() {
-                        // 连接到数据库并查询用户信息
                         try {
                             // 建立数据库连接
-                            Connection conn = DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD);
+                            Connection conn = DatabaseConfig.getConnection();
                             // 创建 SQL 查询语句
                             String query = "SELECT * FROM Member WHERE Email = ? AND Password = ?";
                             PreparedStatement stmt = conn.prepareStatement(query);
-                            stmt.setString(1, username);
-                            stmt.setString(2, password);
+                            stmt.setString(1, Email);
+                            stmt.setString(2, Password);
 
                             // 执行查询
                             ResultSet rs = stmt.executeQuery();
-                            Log.e("run: ",rs.toString() );
+
                             if (rs.next()) {
+
+                                editor.putString("mid",rs.getString("mId"));
+                                editor.commit();
                                 // 用户存在，获取用户角色
                                 String role = rs.getString("Role");
-//                                Log.e("run: ",role );
                                 // 根据角色导航到不同的界面
                                 if (role.equals("Administrator")) {
                                     runOnUiThread(new Runnable() {
                                         @Override
                                         public void run() {
-                                            Intent intent = new Intent(MainActivity.this, Administrator.class);
+                                            Intent intent = new Intent(LoginActivity.this, Administrator.class);
                                             startActivity(intent);
                                         }
                                     });
                                 } else if (role.equals("Member")) {
-//                                    Log.e("run: ","我有到" );
                                     runOnUiThread(new Runnable() {
                                         @Override
                                         public void run() {
-                                            Intent intent = new Intent(MainActivity.this, Order.class);
+                                            Intent intent = new Intent(LoginActivity.this, Order.class);
                                             startActivity(intent);
                                         }
                                     });
@@ -98,7 +97,7 @@ public class MainActivity extends AppCompatActivity {
                                 runOnUiThread(new Runnable() {
                                     @Override
                                     public void run() {
-                                        Toast.makeText(MainActivity.this, "用户名或密码错误", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(LoginActivity.this, "電子信箱或密碼錯誤", Toast.LENGTH_SHORT).show();
                                     }
                                 });
                             }

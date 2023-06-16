@@ -7,12 +7,14 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.UUID;
+import java.sql.Statement;
 
 public class RegistrationActivity extends AppCompatActivity {
     private EditText editTextEmail;
@@ -43,38 +45,40 @@ public class RegistrationActivity extends AppCompatActivity {
                 String Name = editTextFullName.getText().toString();
                 String Phone = editTextPhone.getText().toString();
                 String Address = editTextAddress.getText().toString();
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        saveDataToSqlServer(Name, Email, Password, Address, Phone);
+                if (Email.equals("") || Password.equals("") || Name.equals("") || Phone.equals("") || Address.equals("")) {
+                    Toast.makeText(RegistrationActivity.this, "請輸入完整", Toast.LENGTH_SHORT).show();
+                } else {
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            saveDataToSqlServer(Name, Email, Password, Address, Phone);
 
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                Intent intent = new Intent(RegistrationActivity.this, MainActivity.class);
-                                startActivity(intent);
-                            }
-                        });
-                    }
-                }).start();
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Intent intent = new Intent(RegistrationActivity.this, LoginActivity.class);
+                                    startActivity(intent);
+                                }
+                            });
+                        }
+                    }).start();
+                }
             }
         });
     }
+
+    /**
+     * 存取註冊資料
+     */
     private void saveDataToSqlServer(String Name, String Email, String Password, String Address, String Phone){
-        String connectionString = "jdbc:jtds:sqlserver://192.168.10.8:1433/DrinkShop";
-        String username = "sa";
-        String password = "2ixxddux";
-        Connection connection = null;
 
         try {
-            Class.forName("net.sourceforge.jtds.jdbc.Driver");
-            connection = DriverManager.getConnection(connectionString, username, password);
-            UUID uuid = UUID.randomUUID();
-            String mId = uuid.toString().substring(0, 8);
+            Connection conn = DatabaseConfig.getConnection();
+            String nextId = getNextMemberId(conn);
             String Role = "Member";
             String query = "INSERT INTO Member (mId, Name, Email, Password, Address, Phone, Role) VALUES (?, ?, ?, ?, ?, ?, ?)";
-            PreparedStatement statement = connection.prepareStatement(query);
-            statement.setString(1, mId);
+            PreparedStatement statement = conn.prepareStatement(query);
+            statement.setString(1, nextId);
             statement.setString(2, Name);
             statement.setString(3, Email);
             statement.setString(4, Password);
@@ -82,18 +86,30 @@ public class RegistrationActivity extends AppCompatActivity {
             statement.setString(6, Phone);
             statement.setString(7, Role);
             statement.executeUpdate();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
+
+            statement.close();
+            conn.close();
         } catch (SQLException e) {
             e.printStackTrace();
-        } finally {
-            if (connection != null) {
-                try {
-                    connection.close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
         }
+    }
+
+    /**
+     *ID遞增生成
+     */
+    private String getNextMemberId(Connection connection) throws SQLException {
+        String query = "SELECT MAX(mId) AS maxId FROM Member";
+        Statement statement = connection.createStatement();
+        ResultSet resultSet = statement.executeQuery(query);
+        resultSet.next();
+        // 获取当前最大的 mId 值
+        String maxId = resultSet.getString("maxId");
+        int nextId;
+        if (maxId == null) {
+            nextId = 1;
+        } else {
+            nextId = Integer.parseInt(maxId) + 1;
+        }
+        return String.valueOf(nextId);
     }
 }

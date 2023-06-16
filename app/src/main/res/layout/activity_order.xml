@@ -10,7 +10,7 @@
         android:text="Menu"
         android:textSize="20sp"
         android:textStyle="bold"
-        android:layout_marginBottom="16dp" />
+        android:layout_marginBottom="10dp" />
 
     <TextView
         android:layout_width="match_parent"
@@ -68,7 +68,7 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewOrderList"
         android:layout_width="match_parent"
-        android:layout_height="278dp"
+        android:layout_height="245dp"
         android:layout_marginTop="16dp" />
 
 
@@ -78,7 +78,8 @@
         android:layout_height="wrap_content"
         android:text="總金額: $0.00"
         android:textStyle="bold"
-        android:layout_marginTop="16dp" />
+        android:textSize="20dp"
+         />
 
     <Button
         android:id="@+id/buttonSend"
