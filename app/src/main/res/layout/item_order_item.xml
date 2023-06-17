@@ -1,0 +1,36 @@
+<!-- item_order_item.xml -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="8dp">
+
+    <!-- 商品 -->
+    <TextView
+        android:id="@+id/tvProduct"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="商品：" />
+
+    <!-- 甜度 -->
+    <TextView
+        android:id="@+id/tvSweetness"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="甜度：" />
+
+    <!-- 大小 -->
+    <TextView
+        android:id="@+id/tvSize"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="大小：" />
+
+    <!-- 金額 -->
+    <TextView
+        android:id="@+id/tvAmount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="金額：" />
+
+</LinearLayout>

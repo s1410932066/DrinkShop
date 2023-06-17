@@ -29,12 +29,9 @@ import java.util.UUID;
 public class Order extends AppCompatActivity {
     private List<String> orderList;
     private OrderAdapter orderAdapter;
-    private RecyclerView recyclerViewOrderList;
     private Spinner spinnerMenu;
     private Spinner spinnerSize;
     private Spinner spinnerSweetness;
-    private Button buttonAddOrder;
-    private Button buttonSend;
 
     private Connection connection;
     private PreparedStatement statement;
@@ -48,15 +45,15 @@ public class Order extends AppCompatActivity {
         orderList = new ArrayList<>();
         orderAdapter = new OrderAdapter(orderList);
 
-        recyclerViewOrderList = findViewById(R.id.recyclerViewOrderList);
+        RecyclerView recyclerViewOrderList = findViewById(R.id.recyclerViewOrderList);
         recyclerViewOrderList.setLayoutManager(new LinearLayoutManager(this));
         recyclerViewOrderList.setAdapter(orderAdapter);
 
         spinnerMenu = findViewById(R.id.spinnerMenu);
         spinnerSize = findViewById(R.id.spinnerSize);
         spinnerSweetness = findViewById(R.id.spinnerSweetness);
-        buttonAddOrder = findViewById(R.id.buttonPlaceOrder);
-        buttonSend = findViewById(R.id.buttonSend);
+        Button buttonAddOrder = findViewById(R.id.buttonPlaceOrder);
+        Button buttonSend = findViewById(R.id.buttonSend);
 
         //初始化
         Thread thread = new Thread(new Runnable() {
@@ -311,7 +308,7 @@ public class Order extends AppCompatActivity {
                 detailsStatement.setInt(5, price);
                 detailsStatement.setString(6, selectedSize);
                 detailsStatement.setString(7, selectedSweetness);
-                detailsStatement.setInt(8, price);
+                detailsStatement.setInt(8, calculateTotalPrice());
                 detailsStatement.executeUpdate();
 
             }

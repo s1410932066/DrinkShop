@@ -5,7 +5,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class DatabaseConfig {
-    public static final String URL = "jdbc:jtds:sqlserver://192.168.1.249:1433/DrinkShop";
+    public static final String URL = "jdbc:jtds:sqlserver://192.168.10.8:1433/DrinkShop";
     public static final String USERNAME = "sa";
     public static final String PASSWORD = "2ixxddux";
 

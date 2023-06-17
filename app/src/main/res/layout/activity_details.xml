@@ -73,19 +73,8 @@
         android:padding="16dp">
 
         <!-- 商品总金额 -->
-        <TextView
-            android:id="@+id/tvSubtotal"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="商品总金额：" />
 
         <!-- 配送费 -->
-        <TextView
-            android:id="@+id/tvDeliveryFee"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="配送费：" />
-
 
 
         <!-- 最终支付金额 -->
@@ -93,7 +82,7 @@
             android:id="@+id/tvTotalAmount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="最终支付金额：$" />
+            android:text="最终支付金額：$" />
 
     </LinearLayout>
 
