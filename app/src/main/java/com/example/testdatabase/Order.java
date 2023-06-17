@@ -258,7 +258,6 @@ public class Order extends AppCompatActivity {
     private void insertOrderData() {
         try {
             Connection conn = DatabaseConfig.getConnection();
-//            String orderId = generateUniqueOrderId(conn);
             UUID uuid = UUID.randomUUID();
             String orderId = uuid.toString().substring(0, 8);
             SharedPreferences user= getSharedPreferences("user", MODE_PRIVATE);
@@ -286,13 +285,14 @@ public class Order extends AppCompatActivity {
             if (resultSet.next()) {
                 oId = resultSet.getString("lastOrderId");
             }
-
             getLastOrderIdStatement.close();
 
             // 將資料插入Details資料表
             String detailsQuery = "INSERT INTO Details (dId, oId, Quantity, Product, Price, Size, Sweetness, TotalPrice) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement detailsStatement = connection.prepareStatement(detailsQuery);
             for (String order : orderList) {
+                UUID uuid2 = UUID.randomUUID();
+                String detailsId = uuid2.toString().substring(0, 8);
                 String[] orderDetails = order.split(" - ");
                 String selectedMenu = orderDetails[0];
                 String selectedSize = orderDetails[1];
@@ -300,8 +300,7 @@ public class Order extends AppCompatActivity {
                 int price = Integer.parseInt(orderDetails[3].replace("元", ""));
 
                 // 生成唯一的明細ID（dId）
-                String detailId = generateUniqueDetailId(conn);
-                detailsStatement.setString(1, detailId);
+                detailsStatement.setString(1, detailsId);
                 detailsStatement.setString(2, oId);
                 detailsStatement.setInt(3, 1); // 假設數量總是1
                 detailsStatement.setString(4, selectedMenu);
@@ -317,40 +316,5 @@ public class Order extends AppCompatActivity {
             e.printStackTrace();
         }
     }
-
-    /**
-     * 生成oId
-     */
-//    private String generateUniqueOrderId(Connection connection) throws SQLException {
-//        String query = "SELECT MAX(oId) AS maxId FROM Orders";
-//        Statement statement = connection.createStatement();
-//        ResultSet resultSet = statement.executeQuery(query);
-//        resultSet.next();
-//        String maxId = resultSet.getString("maxId");
-//        int nextId;
-//        if (maxId == null) {
-//            nextId = 1;
-//        } else {
-//            nextId = Integer.parseInt(maxId) + 1;
-//        }
-//        return String.valueOf(nextId);
-//    }
-    /**
-     * 生成dId
-     */
-    private String generateUniqueDetailId(Connection connection) throws SQLException {
-            String query = "SELECT MAX(dId) AS maxId FROM Details";
-            Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery(query);
-            resultSet.next();
-            String maxId = resultSet.getString("maxId");
-            int nextId;
-            if (maxId == null) {
-                nextId = 1;
-            } else {
-                nextId = Integer.parseInt(maxId) + 1;
-            }
-            return String.valueOf(nextId);
-        }
 
 }

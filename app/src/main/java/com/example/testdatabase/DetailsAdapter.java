@@ -51,10 +51,10 @@ public class DetailsAdapter extends RecyclerView.Adapter<DetailsAdapter.DetailsV
         }
 
         public void bind(OrderItem orderItem) {
-            tvProduct.setText(orderItem.getProduct());
-            tvSweetness.setText(orderItem.getSweetness());
-            tvSize.setText(orderItem.getSize());
-            tvAmount.setText(orderItem.getAmount());
+            tvProduct.setText("商品: " + orderItem.getProduct());
+            tvSweetness.setText("甜度: " + orderItem.getSweetness());
+            tvSize.setText("容量: " + orderItem.getSize());
+            tvAmount.setText("價格: " + orderItem.getAmount() + " 元");
         }
     }
 }

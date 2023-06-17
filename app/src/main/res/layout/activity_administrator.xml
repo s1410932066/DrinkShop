@@ -35,7 +35,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="查看熱門產品"
+        android:text="購買最多次會員"
         android:textSize="20sp"
         android:textStyle="bold"
         android:layout_marginTop="16dp"
@@ -50,7 +50,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="總銷售額"
+        android:text="店內總銷售額"
         android:textSize="20sp"
         android:textStyle="bold"
         android:layout_marginTop="16dp"
