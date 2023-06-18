@@ -4,9 +4,9 @@ public class OrderItem {
     private String product;
     private String sweetness;
     private String size;
-    private String amount;
+    private Integer amount;
 
-    public OrderItem(String product, String sweetness, String size, String amount) {
+    public OrderItem(String product, String sweetness, String size, Integer amount) {
         this.product = product;
         this.sweetness = sweetness;
         this.size = size;
@@ -25,7 +25,7 @@ public class OrderItem {
         return size;
     }
 
-    public String getAmount() {
+    public Integer getAmount() {
         return amount;
     }
 }

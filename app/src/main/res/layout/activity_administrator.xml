@@ -23,7 +23,9 @@
         android:id="@+id/editTextProductPrice"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="價格" />
+        android:hint="價格"
+        android:inputType="number" />
+
 
     <Button
         android:id="@+id/buttonAddProduct"

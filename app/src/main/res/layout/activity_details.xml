@@ -93,13 +93,6 @@
         android:gravity="center"
         android:padding="16dp">
 
-        <!-- 取消订单按钮 -->
-        <Button
-            android:id="@+id/btnCancelOrder"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="取消訂單" />
-
         <!-- 再次订购按钮 -->
         <Button
             android:id="@+id/btnReorder"

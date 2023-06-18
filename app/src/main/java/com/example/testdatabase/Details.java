@@ -5,8 +5,11 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -36,6 +39,7 @@ public class Details extends AppCompatActivity {
         tvDeliveryAddress = findViewById(R.id.tvDeliveryAddress);
         tvTotalAmount = findViewById(R.id.tvTotalAmount);
         RecyclerView recyclerViewOrderItems = findViewById(R.id.recyclerViewOrderItems);
+
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
@@ -43,10 +47,20 @@ public class Details extends AppCompatActivity {
             }
         });
         thread.start();
+
         adapter = new DetailsAdapter(orderItems);
         recyclerViewOrderItems.setLayoutManager(new LinearLayoutManager(this));
         recyclerViewOrderItems.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
         recyclerViewOrderItems.setAdapter(adapter);
+
+        Button btnReorder = findViewById(R.id.btnReorder);
+        btnReorder.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Details.this, Order.class);
+                startActivity(intent);
+            }
+        });
     }
 
     private void getLatestOrderData() {
@@ -58,52 +72,59 @@ public class Details extends AppCompatActivity {
                     "WHERE o.OrderDate = (SELECT MAX(OrderDate) FROM Orders)";
             PreparedStatement statement = connection.prepareStatement(queryOrders);
             ResultSet resultSet = statement.executeQuery();
+
             if (resultSet.next()) {
                 String orderId = resultSet.getString("oId");
-                //Log.e( "getLatestOrderData: ", orderId);
                 String orderDate = resultSet.getString("OrderDate");
                 String quantity = resultSet.getString("Quantity");
                 int totalPrice = resultSet.getInt("TotalPrice");
-                // 更新UI
+
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         tvOrderNumber.setText("訂單號：" + orderId);
                         tvOrderTime.setText("下單時間：" + orderDate);
                         tvDeliveryAddress.setText("配送地址：" + quantity);
-                        tvTotalAmount.setText("最终支付金額：$" + totalPrice);
-
+                        tvTotalAmount.setText("最終支付金額：$" + totalPrice);
+//                        orderItems.clear();
                     }
                 });
-            }
 
-            String queryDetails = "SELECT o.oId, o.OrderDate, d.Quantity, d.Price, d.TotalPrice, d.Product, d.Size, d.Sweetness " +
-                    "FROM Orders o " +
-                    "JOIN Details d ON o.oId = d.oId " +
-                    "WHERE o.oId = ? " +
-                    "ORDER BY o.OrderDate DESC";
-            PreparedStatement statement2 = connection.prepareStatement(queryDetails);
-            statement2.setString(1, resultSet.getString("oId"));
-            ResultSet resultSet2 = statement2.executeQuery();
-            while (resultSet2.next()) {
-                String product = resultSet2.getString("Product");
-                String size = resultSet2.getString("Size");
-                String sweetness = resultSet2.getString("Sweetness");
-                String price = resultSet2.getString("Price");
+                String queryDetails = "SELECT o.oId, o.OrderDate, d.Quantity, d.Price, d.TotalPrice, d.Product, d.Size, d.Sweetness " +
+                        "FROM Orders o " +
+                        "JOIN Details d ON o.oId = d.oId " +
+                        "WHERE o.oId = ? " +
+                        "ORDER BY o.OrderDate DESC";
+                PreparedStatement statement2 = connection.prepareStatement(queryDetails);
+                statement2.setString(1, orderId);
+                ResultSet resultSet2 = statement2.executeQuery();
 
-                OrderItem orderItem = new OrderItem(product, sweetness, size, price);
-                orderItems.add(orderItem);
-                adapter.notifyDataSetChanged();
+                while (resultSet2.next()) {
+                    String product = resultSet2.getString("Product");
+                    String size = resultSet2.getString("Size");
+                    String sweetness = resultSet2.getString("Sweetness");
+                    int price = resultSet2.getInt("Price");
+
+                    OrderItem orderItem = new OrderItem(product, sweetness, size, price);
+                    orderItems.add(orderItem);
+                }
+
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        adapter.notifyDataSetChanged();
+                    }
+                });
+
+                resultSet2.close();
+                statement2.close();
             }
 
             resultSet.close();
             statement.close();
-            resultSet2.close();
-            statement2.close();
             connection.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
-
 }

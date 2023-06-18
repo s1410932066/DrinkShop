@@ -277,15 +277,16 @@ public class Order extends AppCompatActivity {
             orderStatement.close();
 
             // 获取最新插入的订单的 oId
-            String getLastOrderIdQuery = "SELECT MAX(oId) AS lastOrderId FROM Orders";
-            Statement getLastOrderIdStatement = conn.createStatement();
+            String getLastOrderIdQuery = "SELECT TOP 1 oId FROM Orders ORDER BY OrderDate DESC";
+            Statement getLastOrderIdStatement = connection.createStatement();
             ResultSet resultSet = getLastOrderIdStatement.executeQuery(getLastOrderIdQuery);
 
             String oId = null;
             if (resultSet.next()) {
-                oId = resultSet.getString("lastOrderId");
+                oId = resultSet.getString("oId");
             }
             getLastOrderIdStatement.close();
+            resultSet.close();
 
             // 將資料插入Details資料表
             String detailsQuery = "INSERT INTO Details (dId, oId, Quantity, Product, Price, Size, Sweetness, TotalPrice) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
@@ -302,7 +303,7 @@ public class Order extends AppCompatActivity {
                 // 生成唯一的明細ID（dId）
                 detailsStatement.setString(1, detailsId);
                 detailsStatement.setString(2, oId);
-                detailsStatement.setInt(3, 1); // 假設數量總是1
+                detailsStatement.setInt(3, 1);
                 detailsStatement.setString(4, selectedMenu);
                 detailsStatement.setInt(5, price);
                 detailsStatement.setString(6, selectedSize);

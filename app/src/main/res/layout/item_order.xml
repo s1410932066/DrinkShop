@@ -6,9 +6,9 @@
 
     <ImageView
         android:id="@+id/imageViewDrinkIcon"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:src="@drawable/a0c8333" />
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:src="@drawable/ccccc" />
 
     <TextView
         android:id="@+id/textViewOrder"
