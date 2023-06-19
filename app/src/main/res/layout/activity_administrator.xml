@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="新增飲料產品"
-        android:textSize="20sp"
+        android:textSize="25sp"
         android:textStyle="bold"
         android:layout_marginBottom="16dp" />
 
@@ -24,7 +24,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="價格"
-        android:inputType="number" />
+        android:inputType="number"
+
+        />
 
 
     <Button
@@ -38,7 +40,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="購買最多次會員"
-        android:textSize="20sp"
+        android:textSize="25sp"
         android:textStyle="bold"
         android:layout_marginTop="16dp"
         android:layout_marginBottom="16dp" />
@@ -53,7 +55,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="店內總銷售額"
-        android:textSize="20sp"
+        android:textSize="25sp"
         android:textStyle="bold"
         android:layout_marginTop="16dp"
         android:layout_marginBottom="16dp" />
@@ -62,6 +64,7 @@
         android:id="@+id/textViewTotalSales"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="總銷售額尚未計算" />
+        android:text="總銷售額尚未計算"
+        android:textSize="20dp"/>
 
 </LinearLayout>

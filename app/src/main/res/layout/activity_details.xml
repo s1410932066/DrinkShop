@@ -16,7 +16,7 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:text="訂單明細"
-            android:textSize="18sp"
+            android:textSize="25sp"
             android:textStyle="bold" />
 
     </RelativeLayout>
@@ -33,28 +33,32 @@
             android:id="@+id/tvOrderNumber"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="訂單號：" />
+            android:text="訂單號："
+            android:textSize="20dp"/>
 
         <!-- 下单时间 -->
         <TextView
             android:id="@+id/tvOrderTime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="下單時間：" />
+            android:text="下單時間："
+            android:textSize="20dp"/>
 
         <!-- 配送地址 -->
         <TextView
             android:id="@+id/tvDeliveryAddress"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="配送地址：" />
+            android:text="配送地址："
+            android:textSize="20dp"/>
 
         <!-- 支付方式 -->
         <TextView
             android:id="@+id/tvPaymentMethod"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="支付方式：貨到付款" />
+            android:text="支付方式：貨到付款"
+            android:textSize="20dp"/>
 
     </LinearLayout>
 
@@ -62,15 +66,17 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewOrderItems"
         android:layout_width="match_parent"
-        android:layout_height="400dp"
-        android:padding="16dp" />
+        android:layout_height="350dp"
+        android:padding="16dp"
+        android:textSize="20dp"/>
 
     <!-- 价格总览 -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="16dp">
+        android:padding="16dp"
+        >
 
         <!-- 商品总金额 -->
 
@@ -82,7 +88,8 @@
             android:id="@+id/tvTotalAmount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="最终支付金額：$" />
+            android:text="最终支付金額：$"
+            android:textSize="20dp"/>
 
     </LinearLayout>
 
@@ -93,12 +100,18 @@
         android:gravity="center"
         android:padding="16dp">
 
+        <Button
+            android:id="@+id/btnCancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="取消訂單" />
+
         <!-- 再次订购按钮 -->
         <Button
             android:id="@+id/btnReorder"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="返回選單" />
+            android:text="繼續選購" />
 
     </LinearLayout>
 

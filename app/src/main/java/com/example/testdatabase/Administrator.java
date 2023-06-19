@@ -94,22 +94,22 @@ public class Administrator extends AppCompatActivity {
             Connection conn = DatabaseConfig.getConnection(); // 獲取資料庫連接
             Statement stmt = conn.createStatement();
 
-            String sql = "SELECT Member.Name, Member.Email, Member.Phone, COUNT(Orders.oId) AS OrderCount " +
+            String sql = "SELECT Member.Account, Member.Email, Member.Phone, COUNT(Orders.oId) AS OrderCount " +
                     "FROM Member " +
                     "INNER JOIN Orders ON Member.mId = Orders.mId " +
                     "WHERE Orders.OrderDate IS NOT NULL " +
-                    "GROUP BY Member.Name, Member.Email, Member.Phone " +
+                    "GROUP BY Member.Account, Member.Email, Member.Phone " +
                     "ORDER BY OrderCount DESC;";
             ResultSet rs = stmt.executeQuery(sql);
 
             ArrayList<String> memberList = new ArrayList<>();
             while (rs.next()) {
-                String name = rs.getString("Name");
+                String account = rs.getString("Account");
                 String email = rs.getString("Email");
                 String phone = rs.getString("Phone");
                 int orderCount = rs.getInt("OrderCount");
 
-                String memberInfo = "會員名稱：" + name + "\n會員電子信箱：" + email + "\n會員電話：" + phone + "\n訂單次數：" + orderCount;
+                String memberInfo = "會員名稱：" + account + "\n會員電子信箱：" + email + "\n會員電話：" + phone + "\n訂單次數：" + orderCount;
                 memberList.add(memberInfo);
             }
 

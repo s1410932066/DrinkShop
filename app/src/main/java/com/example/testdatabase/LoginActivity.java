@@ -18,7 +18,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class LoginActivity extends AppCompatActivity {
-    private EditText editTextEmail;
+    private EditText editTextAccount;
     private EditText editTextPassword;
     private Button buttonRegister;
     private Button buttonLogin;
@@ -28,7 +28,7 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         // 初始化UI元素
-        editTextEmail = findViewById(R.id.editLoginEmail);
+        editTextAccount = findViewById(R.id.editLoginAccount);
         editTextPassword = findViewById(R.id.editTextPassword);
         buttonRegister = findViewById(R.id.buttonRegister);
         buttonLogin = findViewById(R.id.buttonLogin);
@@ -49,7 +49,7 @@ public class LoginActivity extends AppCompatActivity {
         buttonLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String Email = editTextEmail.getText().toString();
+                String Account = editTextAccount.getText().toString();
                 String Password = editTextPassword.getText().toString();
 
                 // 在新线程中执行数据库查询
@@ -60,9 +60,9 @@ public class LoginActivity extends AppCompatActivity {
                             // 建立数据库连接
                             Connection conn = DatabaseConfig.getConnection();
                             // 创建 SQL 查询语句
-                            String query = "SELECT * FROM Member WHERE Email = ? AND Password = ?";
+                            String query = "SELECT * FROM Member WHERE Account = ? AND Password = ?";
                             PreparedStatement stmt = conn.prepareStatement(query);
-                            stmt.setString(1, Email);
+                            stmt.setString(1, Account);
                             stmt.setString(2, Password);
 
                             // 执行查询

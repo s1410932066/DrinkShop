@@ -19,7 +19,7 @@ import java.sql.Statement;
 public class RegistrationActivity extends AppCompatActivity {
     private EditText editTextEmail;
     private EditText editTextConfirmPassword;
-    private EditText editTextFullName;
+    private EditText editTextAccount;
     private EditText editTextPhone;
     private EditText editTextAddress;
     private Button buttonRegister;
@@ -31,7 +31,7 @@ public class RegistrationActivity extends AppCompatActivity {
         // 初始化UI元素
         editTextEmail = findViewById(R.id.editTextEmail);
         editTextConfirmPassword = findViewById(R.id.editTextConfirmPassword);
-        editTextFullName = findViewById(R.id.editTextFullName);
+        editTextAccount = findViewById(R.id.editTextAccount);
         editTextPhone = findViewById(R.id.editTextPhone);
         editTextAddress = findViewById(R.id.editTextAddress);
         buttonRegister = findViewById(R.id.buttonRegister);
@@ -42,16 +42,16 @@ public class RegistrationActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String Email = editTextEmail.getText().toString();
                 String Password = editTextConfirmPassword.getText().toString();
-                String Name = editTextFullName.getText().toString();
+                String Account = editTextAccount.getText().toString();
                 String Phone = editTextPhone.getText().toString();
                 String Address = editTextAddress.getText().toString();
-                if (Email.equals("") || Password.equals("") || Name.equals("") || Phone.equals("") || Address.equals("")) {
+                if (Email.equals("") || Password.equals("") || Account.equals("") || Phone.equals("") || Address.equals("")) {
                     Toast.makeText(RegistrationActivity.this, "請輸入完整", Toast.LENGTH_SHORT).show();
                 } else {
                     new Thread(new Runnable() {
                         @Override
                         public void run() {
-                            saveDataToSqlServer(Name, Email, Password, Address, Phone);
+                            saveDataToSqlServer(Account, Email, Password, Address, Phone);
 
                             runOnUiThread(new Runnable() {
                                 @Override
@@ -76,7 +76,7 @@ public class RegistrationActivity extends AppCompatActivity {
             Connection conn = DatabaseConfig.getConnection();
             String nextId = getNextMemberId(conn);
             String Role = "Member";
-            String query = "INSERT INTO Member (mId, Name, Email, Password, Address, Phone, Role) VALUES (?, ?, ?, ?, ?, ?, ?)";
+            String query = "INSERT INTO Member (mId, Account, Email, Password, Address, Phone, Role) VALUES (?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement statement = conn.prepareStatement(query);
             statement.setString(1, nextId);
             statement.setString(2, Name);

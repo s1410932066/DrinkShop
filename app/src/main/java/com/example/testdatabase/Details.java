@@ -28,6 +28,7 @@ public class Details extends AppCompatActivity {
     TextView tvTotalAmount;
     List<OrderItem> orderItems = new ArrayList<>();
     DetailsAdapter adapter;
+    String orderId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +62,22 @@ public class Details extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        Button btnCancel = findViewById(R.id.btnCancel);
+        btnCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Thread thread = new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        DeleteOrder();
+                    }
+                });
+                thread.start();
+                Intent intent = new Intent(Details.this, Order.class);
+                startActivity(intent);
+            }
+        });
     }
 
     private void getLatestOrderData() {
@@ -74,7 +91,7 @@ public class Details extends AppCompatActivity {
             ResultSet resultSet = statement.executeQuery();
 
             if (resultSet.next()) {
-                String orderId = resultSet.getString("oId");
+                orderId = resultSet.getString("oId");
                 String orderDate = resultSet.getString("OrderDate");
                 String quantity = resultSet.getString("Quantity");
                 int totalPrice = resultSet.getInt("TotalPrice");
@@ -86,7 +103,6 @@ public class Details extends AppCompatActivity {
                         tvOrderTime.setText("下單時間：" + orderDate);
                         tvDeliveryAddress.setText("配送地址：" + quantity);
                         tvTotalAmount.setText("最終支付金額：$" + totalPrice);
-//                        orderItems.clear();
                     }
                 });
 
@@ -122,6 +138,27 @@ public class Details extends AppCompatActivity {
 
             resultSet.close();
             statement.close();
+            connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void DeleteOrder() {
+        try {
+            Connection connection = DatabaseConfig.getConnection();
+            String deleteOrderQuery = "DELETE FROM Orders WHERE oId = ?";
+            PreparedStatement deleteStatement = connection.prepareStatement(deleteOrderQuery);
+            deleteStatement.setString(1, orderId);
+            int rowsAffected = deleteStatement.executeUpdate();
+
+            if (rowsAffected > 0) {
+                Log.d("DetailsActivity", "Order deleted successfully");
+            } else {
+                Log.d("DetailsActivity", "Failed to delete order");
+            }
+
+            deleteStatement.close();
             connection.close();
         } catch (SQLException e) {
             e.printStackTrace();
