@@ -56,6 +56,7 @@ public class RegistrationActivity extends AppCompatActivity {
                             runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
+                                    Toast.makeText(RegistrationActivity.this, "註冊成功", Toast.LENGTH_SHORT).show();
                                     Intent intent = new Intent(RegistrationActivity.this, LoginActivity.class);
                                     startActivity(intent);
                                 }

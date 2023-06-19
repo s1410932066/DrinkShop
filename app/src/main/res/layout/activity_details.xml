@@ -44,14 +44,6 @@
             android:text="下單時間："
             android:textSize="20dp"/>
 
-        <!-- 配送地址 -->
-        <TextView
-            android:id="@+id/tvDeliveryAddress"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="配送地址："
-            android:textSize="20dp"/>
-
         <!-- 支付方式 -->
         <TextView
             android:id="@+id/tvPaymentMethod"

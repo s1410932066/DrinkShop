@@ -44,7 +44,9 @@ public class Administrator extends AppCompatActivity {
                     }
                 });
                 thread.start();
-
+                editTextProductName.setText("");
+                editTextProductPrice.setText("");
+                Toast.makeText(Administrator.this, "新增新品飲料成功", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -77,9 +79,8 @@ public class Administrator extends AppCompatActivity {
             // 执行插入操作，显式指定 pId 列的值
             String sql = "INSERT INTO Product (pId, ProductName, Price) VALUES (" + nextId + ", '" + productName + "', " + price + ");";
             stmt.executeUpdate(sql);
-            editTextProductName.setText("");
-            editTextProductPrice.setText("");
-            Toast.makeText(Administrator.this, "新增新品飲料成功", Toast.LENGTH_SHORT).show();
+
+
             Log.d(TAG, "新增新品飲料成功");
 
             stmt.close();

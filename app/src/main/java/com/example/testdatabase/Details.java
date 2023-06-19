@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -24,7 +25,6 @@ public class Details extends AppCompatActivity {
 
     TextView tvOrderNumber;
     TextView tvOrderTime;
-    TextView tvDeliveryAddress;
     TextView tvTotalAmount;
     List<OrderItem> orderItems = new ArrayList<>();
     DetailsAdapter adapter;
@@ -37,7 +37,6 @@ public class Details extends AppCompatActivity {
 
         tvOrderNumber = findViewById(R.id.tvOrderNumber);
         tvOrderTime = findViewById(R.id.tvOrderTime);
-        tvDeliveryAddress = findViewById(R.id.tvDeliveryAddress);
         tvTotalAmount = findViewById(R.id.tvTotalAmount);
         RecyclerView recyclerViewOrderItems = findViewById(R.id.recyclerViewOrderItems);
 
@@ -74,6 +73,7 @@ public class Details extends AppCompatActivity {
                     }
                 });
                 thread.start();
+                Toast.makeText(Details.this, "訂單已取消請重新選購", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(Details.this, Order.class);
                 startActivity(intent);
             }
@@ -93,7 +93,6 @@ public class Details extends AppCompatActivity {
             if (resultSet.next()) {
                 orderId = resultSet.getString("oId");
                 String orderDate = resultSet.getString("OrderDate");
-                String quantity = resultSet.getString("Quantity");
                 int totalPrice = resultSet.getInt("TotalPrice");
 
                 runOnUiThread(new Runnable() {
@@ -101,7 +100,6 @@ public class Details extends AppCompatActivity {
                     public void run() {
                         tvOrderNumber.setText("訂單號：" + orderId);
                         tvOrderTime.setText("下單時間：" + orderDate);
-                        tvDeliveryAddress.setText("配送地址：" + quantity);
                         tvTotalAmount.setText("最終支付金額：$" + totalPrice);
                     }
                 });

@@ -11,7 +11,7 @@
         android:layout_height="50dp"
         android:layout_marginBottom="16dp"
         android:background="@drawable/edittext_background"
-        android:hint="請輸入電子信箱"
+        android:hint="請輸入帳號"
         android:paddingStart="8dp"/> <!-- 調整與下方元素的底部間距 -->
 
     <EditText

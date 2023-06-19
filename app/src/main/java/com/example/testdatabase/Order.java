@@ -12,6 +12,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -121,6 +122,7 @@ public class Order extends AppCompatActivity {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
+                                Toast.makeText(Order.this, "已送出訂單", Toast.LENGTH_SHORT).show();
                                 Intent intent = new Intent(Order.this, Details.class);
                                 startActivity(intent);
                             }
@@ -257,7 +259,6 @@ public class Order extends AppCompatActivity {
      */
     private void insertOrderData() {
         try {
-            Connection conn = DatabaseConfig.getConnection();
             UUID uuid = UUID.randomUUID();
             String orderId = uuid.toString().substring(0, 8);
             SharedPreferences user= getSharedPreferences("user", MODE_PRIVATE);
@@ -276,7 +277,7 @@ public class Order extends AppCompatActivity {
             orderStatement.executeUpdate();
             orderStatement.close();
 
-            // 获取最新插入的订单的 oId
+            // 獲取最新插入的訂單的 oId
             String getLastOrderIdQuery = "SELECT TOP 1 oId FROM Orders ORDER BY OrderDate DESC";
             Statement getLastOrderIdStatement = connection.createStatement();
             ResultSet resultSet = getLastOrderIdStatement.executeQuery(getLastOrderIdQuery);
